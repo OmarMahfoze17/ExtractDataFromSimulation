@@ -108,8 +108,15 @@ call decomp_info_init(nxm, ny, nz, ph4)
 call decomp_info_init(nxm, ny, nz, ph2)  
 call decomp_info_init(nxm, nym, nz, ph3) 
 
+if (ilit==1) then
+   open (1,file='restartTime')
+   read(1,*) ifirst
+   ifirst=ifirst+1
+   close(1)
 
-do itime=ifirst,ilast
+endif
+
+do itime=ifirst,ifirst+ilast-1
    t=(itime-1)*dt
    if (nrank==0) then
       write(*,1001) itime,t
@@ -180,8 +187,15 @@ do itime=ifirst,ilast
         uvmean,uwmean,vwmean,phiphimean,tmean)
 
 	
-   if (mod(itime,isave)==0) call restart(ux1,uy1,uz1,ep1,pp3,phi1,gx1,gy1,gz1,&
+   if (mod(itime,isave)==0) then
+	call restart(ux1,uy1,uz1,ep1,pp3,phi1,gx1,gy1,gz1,&
         px1,py1,pz1,phis1,hx1,hy1,hz1,phiss1,phG,1)
+	if (nrank==0) then
+  	     open (1,file='restartTime')
+      	     write(1,*) itime
+  	     close(1)
+	endif
+   endif
      
    if (mod(itime,imodulo)==0) then
       call VISU_INSTA(ux1,uy1,uz1,phi1,ta1,tb1,tc1,td1,te1,tf1,tg1,th1,ti1,di1,&

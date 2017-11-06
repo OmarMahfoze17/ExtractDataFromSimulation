@@ -900,8 +900,9 @@ contains
 	call MPI_FILE_OPEN(newcomm, filename, MPI_MODE_APPEND+MPI_MODE_WRONLY, MPI_INFO_NULL,fh, ierror)        ! OMAR
 	if (ierror /= 0) then
 	      call MPI_FILE_OPEN(newcomm, filename, MPI_MODE_CREATE+MPI_MODE_WRONLY, MPI_INFO_NULL,fh, ierror)        ! OMAR
+print *, '===== Creat New File For The SubDomain ==', ierror
 	endif
-	print *, '========== ierror ==', ierror
+	
        filesize = 0_MPI_OFFSET_KIND
        !call MPI_FILE_SET_SIZE(fh,filesize,ierror)  ! guarantee overwriting
        ! disp = 0_MPI_OFFSET_KIND   ! OMAR

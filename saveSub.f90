@@ -15,20 +15,23 @@ integer :: code,icomplet,ip,jp,kp,nx1,nx2,ny1,ny2,nz1,nz2
 character(len=30) nfichier,nfichier1
 character(len=30) :: filename
 if (itime==1 ) then
-call system('rm -rf subSave ')
-call system('mkdir subSave')
+!call system('rm -rf subSave ')
+!call system('mkdir subSave')
 endif
 
 !! ------------------- UX ---------------------------------------------------
-filename='./subSave/uxSubdomain'
+1 format('./subSave/uxSubdomain',I5.5)
+write(filename, 1) int(floor(itime/4000.001))+1
    call decomp_2d_write_subdomain(1,ux1,nx1,nx2,ny1,ny2,nz1,nz2,filename) 
 
 !! ------------------- UY ---------------------------------------------------
-filename='./subSave/uySubdomain'
+2 format('./subSave/uySubdomain',I5.5)
+write(filename, 2) int(floor(itime/4000.001))+1
 call decomp_2d_write_subdomain(1,uy1,nx1,nx2,ny1,ny2,nz1,nz2,filename) 
 
 !! ------------------- UZ ---------------------------------------------------
-filename='./subSave/uzSubdomain'
+3 format('./subSave/uzSubdomain',I5.5)
+write(filename, 3) int(floor(itime/4000.001))+1
 call decomp_2d_write_subdomain(1,uz1,nx1,nx2,ny1,ny2,nz1,nz2,filename) 
 end subroutine saveSub
 !! ###########################################################################
@@ -82,9 +85,10 @@ uvisu=0.
 call fine_to_coarseV(1,tb1,uvisu)
 
 if (itime==1 ) then
-call system('mkdir subSave')
+!call system('mkdir subSave')
 endif
-filename='./subSave/ppSubdomain'
+4 format('./subSave/ppSubdomain',I5.5)
+write(filename, 4) int(floor(itime/4000.001))+1
 call decomp_2d_write_subdomain(1,uvisu,nx1,nx2,ny1,ny2,nz1,nz2,filename) 
 end subroutine saveSubPressure
 !############################################################################
